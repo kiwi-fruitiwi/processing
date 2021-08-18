@@ -11,48 +11,47 @@ public class Vehicle extends PApplet {
 	private PVector pos;
 	private PVector vel;
 	private PVector acc;
-	private float max_speed;
-	private float max_force;
+	private final float max_speed;
+	private final float max_force;
 	private int r;
 	private int ACC_VECTOR_SCALE;
 
 
 	public Vehicle(int x, int y) {
-		this.pos = new PVector(x, y);
-		this.vel = new PVector(random(-1, 1), random(-1, 1));
-		this.acc = new PVector(0, 0);
+		pos = new PVector(x, y);
+		vel = new PVector(random(-1, 1), random(-1, 1));
+		acc = new PVector(0, 0);
 
-		this.max_speed = random(3f, 5f);
-		this.max_force = random(0.02f, 0.03f);
-		this.r = 20;
-		this.ACC_VECTOR_SCALE = 2000;
+		max_speed = random(3f, 5f);
+		max_force = random(0.02f, 0.03f);
+		r = 20;
+		ACC_VECTOR_SCALE = 2000;
 	}
 
 	// assume self.mass is 1, so we don't need to worry about mass
 	public void apply_force(PVector force) {
 		// F = ma.Since m = 1, F = a
-		force.limit(this.max_force);
-		this.acc.add(force);
+		force.limit(max_force);
+		acc.add(force);
 	}
 
 	// how do the position and velocity change with each frame?
 	// don't forget to limit the velocity!
 	public void update(PApplet self) {
-		this.pos.add(this.vel);
-		this.vel.add(this.acc);
-		this.vel.limit(this.max_speed);
-		this.acc = new PVector(0, 0);
+		pos.add(vel);
+		vel.add(acc);
+		vel.limit(max_speed);
+		acc = new PVector(0, 0);
 	}
 
 	public void show(PApplet self) {
 		self.pushMatrix();
-		self.translate(this.pos.x, this.pos.y);
+		self.translate(pos.x, pos.y);
 
-		self.rotate(this.vel.heading());
+		self.rotate(vel.heading());
 
 		// this is where we draw our object. we're going to try for a 9S Hackbot
         // https://puu.sh/I3E19/9d32002c25.png
-		r = this.r;
 
 		float T = 0.4f; // how far away is the tip away from the origin?
 		float C = 0.2f; // what is the radius of the inner circle?
@@ -90,14 +89,14 @@ public class Vehicle extends PApplet {
 	}
 
 	public void edge_wrap(PApplet self) {
-		if (this.pos.x + this.r > self.width)
-			this.pos.x = this.r;
-		if (this.pos.x - this.r < 0)
-			this.pos.x = self.width - this.r;
+		if(pos.x + r > self.width)
+			pos.x = r;
+		if(pos.x - r < 0)
+			pos.x = self.width - r;
 
-		if (this.pos.y + this.r > self.height)
-			this.pos.y = this.r;
-		if (this.pos.y - this.r < 0)
-			this.pos.y = self.height - this.r;
+		if(pos.y + r > self.height)
+			pos.y = r;
+		if(pos.y - r < 0)
+			pos.y = self.height - r;
 	}
 }
