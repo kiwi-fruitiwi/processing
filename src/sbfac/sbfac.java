@@ -6,13 +6,14 @@ import processing.core.PVector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Thanks to our hero Abe Pazos at https://vimeo.com/channels/p5idea, who teaches us how to use Processing inside IDEA
  */
 public class sbfac extends PApplet {
 	List<Vehicle> vehicles;
+	PVector gravity;
+	PVector mouse_acc;
 
 	public static void main(String[] args) {
 		PApplet.main(new String[]{sbfac.class.getName()});
@@ -20,7 +21,7 @@ public class sbfac extends PApplet {
 
 	@Override
 	public void settings() {
-		size(700, 600);
+		size(1000, 800);
 	}
 
 	@Override
@@ -30,19 +31,27 @@ public class sbfac extends PApplet {
 		frameRate(144);
 		vehicles = new ArrayList<>();
 		repopulate();
+
+		gravity = new PVector(0, 1);
+		mouse_acc = new PVector(0, 0);
 	}
 
 	@Override
 	public void draw() {
 		background(210, 80, 40);
-		rect(mouseX, mouseY, 20, 20);
 
-		PVector gravity = PVector.random2D();
+//		mouse_attracts_vehicles();
+		
+	}
+
+	private void mouse_attracts_vehicles() {
 		for(Vehicle v : vehicles) {
 			v.show(this);
 			v.update(this);
-			v.edge_wrap(this);
-			v.apply_force(gravity);
+			v.edge_bounce(this);
+
+			mouse_acc = PVector.sub(new PVector(mouseX, mouseY), v.getPos());
+			v.apply_force(mouse_acc);
 		}
 	}
 
@@ -50,11 +59,12 @@ public class sbfac extends PApplet {
 		for(int i=0; i < 100; i++) {
 			// nextInt is normally exclusive of the top value,
 			// so add 1 to make it inclusive
-			vehicles.add(new Vehicle(
-							ThreadLocalRandom.current().nextInt(10,  width-10+1),
-							ThreadLocalRandom.current().nextInt(10,  height-10+1)));
+			vehicles.add(new Vehicle((int) random(10, width-10 +1), (int) random(10, height-10 +1)));
 		}
 	}
+
+	// The apparent best way to get a random number that doesn't have seed problems
+	// ThreadLocalRandom.current().nextInt(10,  width-10+1)
 
 	@Override
 	public void mousePressed() {

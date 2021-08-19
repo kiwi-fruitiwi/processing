@@ -4,16 +4,13 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PVector;
 
-import static java.lang.Math.sqrt;
-
-
 public class Vehicle extends PApplet {
 	private PVector pos;
 	private PVector vel;
 	private PVector acc;
 	private final float max_speed;
 	private final float max_force;
-	private int r;
+	private final int r;
 	private int ACC_VECTOR_SCALE;
 
 
@@ -24,8 +21,12 @@ public class Vehicle extends PApplet {
 
 		max_speed = random(3f, 5f);
 		max_force = random(0.02f, 0.03f);
-		r = 20;
+		r = 24;
 		ACC_VECTOR_SCALE = 2000;
+	}
+
+	public PVector getPos() {
+		return pos;
 	}
 
 	// assume self.mass is 1, so we don't need to worry about mass
@@ -50,7 +51,7 @@ public class Vehicle extends PApplet {
 
 		self.rotate(vel.heading());
 
-		// this is where we draw our object. we're going to try for a 9S Hackbot
+		// this is where we draw our object. we're going to try for a 9S Hacking Bot
         // https://puu.sh/I3E19/9d32002c25.png
 
 		float T = 0.4f; // how far away is the tip away from the origin?
@@ -74,9 +75,9 @@ public class Vehicle extends PApplet {
 		self.strokeWeight(1);
 		self.line(0, 0, -r*T, 0); // line to the butt
 
-		float x = (float) ((r*T)/(sqrt(3)+T));
-		self.line(0, 0, x, (float) sqrt(3)*x); // line to the top 120 degrees
-		self.line(0, 0, x, (float) -sqrt(3)*x); // line to the bottom 120 degrees
+		float x = (r*T)/(sqrt(3)+T);
+		self.line(0, 0, x, sqrt(3) *x); // line to the top 120 degrees
+		self.line(0, 0, x, -sqrt(3) *x); // line to the bottom 120 degrees
 
         // two little squares in the back
 		self.rectMode(PConstants.CENTER);
@@ -88,6 +89,8 @@ public class Vehicle extends PApplet {
 		self.popMatrix();
 	}
 
+
+	// When this Vehicle hits an edge, wrap around
 	public void edge_wrap(PApplet self) {
 		if(pos.x + r > self.width)
 			pos.x = r;
@@ -98,5 +101,32 @@ public class Vehicle extends PApplet {
 			pos.y = r;
 		if(pos.y - r < 0)
 			pos.y = self.height - r;
+	}
+
+	// bounce off the edges by inverting velocity
+	public void edge_bounce(PApplet self) {
+		// right edge
+		if(pos.x + r > self.width) {
+			pos.x = self.width - r;
+			vel.x *= -1;
+		}
+
+		// left edge
+		if(pos.x - r < 0) {
+			pos.x = r;
+			vel.x *= -1;
+		}
+
+		// bottom edge
+		if(pos.y + r > self.height) {
+			pos.y = self.height - r;
+			vel.y *= -1;
+		}
+
+		// top edge
+		if(pos.y - r < 0) {
+			pos.y = r;
+			vel.y *= -1;
+		}
 	}
 }
