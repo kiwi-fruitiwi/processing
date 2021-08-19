@@ -5,24 +5,24 @@ import processing.core.PConstants;
 import processing.core.PVector;
 
 public class Vehicle extends PApplet {
-	private PVector pos;
-	private PVector vel;
-	private PVector acc;
-	private final float max_speed;
-	private final float max_force;
-	private final int r;
-	private int ACC_VECTOR_SCALE;
+	protected PVector pos;
+	protected PVector vel;
+	protected PVector acc;
+	protected float max_speed;
+	protected float max_force;
+	protected int r;
+	protected int ACC_VECTOR_SCALE;
 
 
 	public Vehicle(int x, int y) {
 		pos = new PVector(x, y);
-		vel = new PVector(random(-1, 1), random(-1, 1));
+		vel = new PVector(random(-1, 1), random(-1, 1)).mult(0.05f);
 		acc = new PVector(0, 0);
 
 		max_speed = random(3f, 5f);
-		max_force = random(0.02f, 0.03f);
+		max_force = random(0.01f, 0.05f);
 		r = 24;
-		ACC_VECTOR_SCALE = 2000;
+		ACC_VECTOR_SCALE = 1000;
 	}
 
 	public PVector getPos() {
@@ -46,9 +46,10 @@ public class Vehicle extends PApplet {
 	}
 
 	public void show(PApplet self) {
+		show_acc_vector(self);
+
 		self.pushMatrix();
 		self.translate(pos.x, pos.y);
-
 		self.rotate(vel.heading());
 
 		// this is where we draw our object. we're going to try for a 9S Hacking Bot
@@ -89,6 +90,33 @@ public class Vehicle extends PApplet {
 		self.popMatrix();
 	}
 
+	protected void show_acc_vector(PApplet app) {
+		app.pushMatrix();
+		app.translate(pos.x, pos.y);
+		app.stroke(200, 100, 100, 50);
+		app.strokeWeight(1);
+		app.rotate(acc.heading());
+		float r = acc.mag()*ACC_VECTOR_SCALE;
+		app.line(0, 0, r, 0); // main acceleration vector
+		app.line(r, 0, r-3, -3); // bottom arrow half
+		app.line(r, 0, r-3, 3); // top arrow half
+		app.popMatrix();
+	}
+
+	// Seek our a target's location with steering = desired_vel - current_vel
+	public PVector seek(PVector location) {
+		// our desired velocity is to move at max speed directly toward the target
+		PVector desired = PVector.sub(location, pos); // difference of positions gives us direction
+		desired.setMag(max_speed);
+
+		// steering = desired velocity - current velocity to counteract our current heading
+		// we want to convert this direction and magnitude into an acceleration vector
+		desired.sub(vel);
+		desired.limit(max_force);
+
+		return desired;
+	}
+
 
 	// When this Vehicle hits an edge, wrap around
 	public void edge_wrap(PApplet self) {
@@ -96,7 +124,6 @@ public class Vehicle extends PApplet {
 			pos.x = r;
 		if(pos.x - r < 0)
 			pos.x = self.width - r;
-
 		if(pos.y + r > self.height)
 			pos.y = r;
 		if(pos.y - r < 0)
