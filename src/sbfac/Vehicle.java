@@ -117,6 +117,11 @@ public class Vehicle extends PApplet {
 		return desired;
 	}
 
+	// the opposite of seek. we are trying to avoid a target
+	public PVector flee(PVector location) {
+		return seek(location).mult(-1);
+	}
+
 
 	// When this Vehicle hits an edge, wrap around
 	public void edge_wrap(PApplet self) {

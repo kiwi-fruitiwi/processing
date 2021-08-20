@@ -14,14 +14,17 @@ import java.util.stream.IntStream;
 public class sbfac extends PApplet {
 	// done: vehicle, target
 	// done: arrows on acceleration vectors
-	// TODO: seek and flee, +Target
+	// done: seek and flee, +Target
 	// TODO: pursue and evade
 	// TODO: arrive
+	// TODO: more complex behaviors that lead to 2D boids
+	// TODO: 3D
 
 	List<Vehicle> vehicles;
 	PVector gravity;
 	PVector mouse_acc;
 	Target target;
+	boolean seek; // is the behavior seek / pursue or flee / evade?
 
 	public static void main(String[] args) {
 		PApplet.main(new String[]{sbfac.class.getName()});
@@ -37,12 +40,14 @@ public class sbfac extends PApplet {
 		rectMode(PConstants.RADIUS);
 		colorMode(HSB, 360f, 100f, 100f, 100f);
 		frameRate(144);
+		seek = true;
+
 		vehicles = new ArrayList<>();
 		repopulate();
 
 		gravity = new PVector(0, 1);
 		mouse_acc = new PVector(0, 0);
-		target = new Target(width/2, height/2);
+		target = new Target(width / 2, height / 2);
 	}
 
 	@Override
@@ -51,11 +56,15 @@ public class sbfac extends PApplet {
 //		mouse_attracts_vehicles();
 
 		target.pos = new PVector(mouseX, mouseY);
-		target.show(this);
+		target.show(this, seek);
 		target.update(this);
 
 		for (Vehicle v : vehicles) {
-			v.apply_force(v.seek(target.pos));
+			if (seek) {
+				v.apply_force(v.seek(target.pos));
+			} else {
+				v.apply_force(v.flee(target.pos));
+			}
 
 			v.show(this);
 			v.update(this);
@@ -88,6 +97,6 @@ public class sbfac extends PApplet {
 
 	@Override
 	public void mousePressed() {
-		System.out.println(mouseX);
+		seek = !seek;
 	}
 }
