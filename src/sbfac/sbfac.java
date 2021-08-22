@@ -61,7 +61,7 @@ public class sbfac extends PApplet {
 
 		for (Vehicle v : vehicles) {
 			if (seek) {
-				v.apply_force(v.seek(target.pos));
+				v.apply_force(v.seek(target.pos, true));
 			} else {
 				v.apply_force(v.flee(target.pos));
 			}
