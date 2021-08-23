@@ -27,7 +27,7 @@ public class sbfac extends PApplet {
 	boolean seek; // is the behavior seek / pursue or flee / evade?
 
 	public static void main(String[] args) {
-		PApplet.main(new String[]{sbfac.class.getName()});
+		PApplet.main(new String[] {sbfac.class.getName()});
 	}
 
 	@Override

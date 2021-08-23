@@ -19,10 +19,10 @@ public class Vehicle extends PApplet {
 
 	public Vehicle(int x, int y) {
 		pos = new PVector(x, y);
-		vel = new PVector(random(-1, 1), random(-1, 1)).mult(0.1f);
+		vel = new PVector(random(-1, 1), random(-1, 1)).mult(0.4f);
 		acc = new PVector(0, 0);
 
-		max_speed = random(1f, 2f);
+		max_speed = random(4f, 6f);
 		max_force = random(0.02f, 0.04f);
 		r = 24;
 		ACC_VECTOR_SCALE = 1000;
@@ -48,6 +48,7 @@ public class Vehicle extends PApplet {
 		acc = new PVector(0, 0);
 	}
 
+
 	public void show(PApplet self) {
 		show_acc_vector(self);
 
@@ -58,12 +59,18 @@ public class Vehicle extends PApplet {
 		// this is where we draw our object. we're going to try for a 9S Hacking Bot
 		// https://puu.sh/I3E19/9d32002c25.png
 
+		/*
+			If this project is in P3D, the strokes will be drawn over everything else, resulting in a mess of black.
+			You can counter this with hint(DISABLE_OPTIMIZED_STROKE) but this dramatically reduces performance. In
+			normal 3D applications, however, shapes are drawn with faces of triangles and quads, so this is a non-issue.
+		 */
+
 		float T = 0.4f; // how far away is the tip away from the origin?
 		float C = 0.2f; // what is the radius of the inner circle?
 		float B = 0.3f; // how far away is the butt away from the origin?
 
 		self.fill(0, 0, 100, 75);
-		self.stroke(0, 0, 0, 100);
+		self.stroke(0, 0, 0, 50);
 		self.strokeWeight(1);
 		self.beginShape();
 		self.vertex(r, 0); // front tip
@@ -97,7 +104,7 @@ public class Vehicle extends PApplet {
 		app.pushMatrix();
 		app.translate(pos.x, pos.y);
 		app.stroke(200, 100, 100, 50);
-		app.strokeWeight(1);
+		app.strokeWeight(2);
 		app.rotate(acc.heading());
 		float r = acc.mag() * ACC_VECTOR_SCALE;
 		app.line(0, 0, r, 0); // main acceleration vector
@@ -121,8 +128,8 @@ public class Vehicle extends PApplet {
 		// our desired velocity is to move at max speed directly toward the target
 		PVector desired = PVector.sub(location, pos); // difference of positions gives us direction
 
-		// are we within a set radius of our target? note that PVector.sub(location, pos).mag()
-		//  gives us the distance between us and our target
+		// are we within a set radius of our target? note that PVector.sub(location, pos).mag() gives us the distance
+		// between us and our target
 		float distance = desired.mag();
 		if (arrive && distance < DECELERATION_RADIUS) {
 			float m = map(distance, 0, 100, 0, max_speed);
