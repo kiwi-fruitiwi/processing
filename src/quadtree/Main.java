@@ -1,12 +1,21 @@
 package quadtree;
 
 import processing.core.PApplet;
+import sbfac.Vehicle;
+
+import java.util.List;
 
 public class Main extends PApplet {
-	// done: vehicle, target
+	// generate points, draw points on mouse drag
+	// make quadtree
+	// .insert(), .subdivide()
+	// .query()
+	// query box with mouse hover
+	// add collision detection » point.intersects
+	// use quadtree in detection
 
+	List<Point> points;
 
-	
 	public static void main(String[] args) {
 		PApplet.main(new String[] {Main.class.getName()});
 	}

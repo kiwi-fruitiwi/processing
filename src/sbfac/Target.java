@@ -3,8 +3,8 @@ package sbfac;
 import processing.core.PApplet;
 
 public class Target extends Vehicle {
-	public Target(int x, int y) {
-		super(x, y);
+	public Target(PApplet self, int x, int y) {
+		super(self, x, y);
 		max_speed = 18;
 		max_force = 15;
 		ACC_VECTOR_SCALE = 250;

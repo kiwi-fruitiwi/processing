@@ -6,8 +6,9 @@ import processing.core.PVector;
 
 /**
  * Hello Cody!
+ * omg, why does Vehicle extend pApplet? there must be a better way to use random and sqrt
  */
-public class Vehicle extends PApplet {
+public class Vehicle {
 	protected PVector pos;
 	protected PVector vel;
 	protected PVector acc;
@@ -17,13 +18,13 @@ public class Vehicle extends PApplet {
 	protected int ACC_VECTOR_SCALE;
 
 
-	public Vehicle(int x, int y) {
+	public Vehicle(PApplet self, int x, int y) {
 		pos = new PVector(x, y);
-		vel = new PVector(random(-1, 1), random(-1, 1)).mult(0.4f);
+		vel = new PVector(self.random(-1, 1), self.random(-1, 1)).mult(0.4f);
 		acc = new PVector(0, 0);
 
-		max_speed = random(4f, 6f);
-		max_force = random(0.02f, 0.04f);
+		max_speed = self.random(4f, 6f);
+		max_force = self.random(0.02f, 0.04f);
 		r = 24;
 		ACC_VECTOR_SCALE = 1000;
 	}
@@ -86,9 +87,9 @@ public class Vehicle extends PApplet {
 		self.strokeWeight(1);
 		self.line(0, 0, -r * T, 0); // line to the butt
 
-		float x = (r * T) / (sqrt(3) + T);
-		self.line(0, 0, x, sqrt(3) * x); // line to the top 120 degrees
-		self.line(0, 0, x, -sqrt(3) * x); // line to the bottom 120 degrees
+		float x = (r * T) / (self.sqrt(3) + T);
+		self.line(0, 0, x, self.sqrt(3) * x); // line to the top 120 degrees
+		self.line(0, 0, x, -self.sqrt(3) * x); // line to the bottom 120 degrees
 
 		// two little squares in the back
 		self.rectMode(PConstants.CENTER);
@@ -122,7 +123,7 @@ public class Vehicle extends PApplet {
 	 * @param arrive   If this is true, we will slow down as we arrive; if not we shoot right through
 	 * @return a force that seeks our target's location with steering_force = desired_vel - current_vel
 	 */
-	public PVector seek(PVector location, boolean arrive) {
+	public PVector seek(PApplet self, PVector location, boolean arrive) {
 		final float DECELERATION_RADIUS = 200;
 
 		// our desired velocity is to move at max speed directly toward the target
@@ -132,7 +133,7 @@ public class Vehicle extends PApplet {
 		// between us and our target
 		float distance = desired.mag();
 		if (arrive && distance < DECELERATION_RADIUS) {
-			float m = map(distance, 0, 100, 0, max_speed);
+			float m = self.map(distance, 0, 100, 0, max_speed);
 			desired.setMag(m);
 		} else {
 			desired.setMag(max_speed);
@@ -147,8 +148,8 @@ public class Vehicle extends PApplet {
 	}
 
 	// the opposite of seek. we are trying to avoid a target
-	public PVector flee(PVector location) {
-		return seek(location, false).mult(-1);
+	public PVector flee(PApplet self, PVector location) {
+		return seek(self, location, false).mult(-1);
 	}
 
 

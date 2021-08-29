@@ -47,7 +47,7 @@ public class sbfac extends PApplet {
 
 		gravity = new PVector(0, 1);
 		mouse_acc = new PVector(0, 0);
-		target = new Target(width / 2, height / 2);
+		target = new Target(this, width / 2, height / 2);
 	}
 
 	@Override
@@ -61,9 +61,9 @@ public class sbfac extends PApplet {
 
 		for (Vehicle v : vehicles) {
 			if (seek) {
-				v.apply_force(v.seek(target.pos, true));
+				v.apply_force(v.seek(this, target.pos, true));
 			} else {
-				v.apply_force(v.flee(target.pos));
+				v.apply_force(v.flee(this, target.pos));
 			}
 
 			v.show(this);
@@ -88,6 +88,7 @@ public class sbfac extends PApplet {
 	public void repopulate() {
 		IntStream.range(0, 100).forEach(i -> vehicles.add(
 				new Vehicle(
+						this,
 						(int) random(10, width - 10 + 1),
 						(int) random(10, height - 10 + 1))));
 	}
