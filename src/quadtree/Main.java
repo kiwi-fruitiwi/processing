@@ -1,9 +1,10 @@
 package quadtree;
 
 import processing.core.PApplet;
-import sbfac.Vehicle;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Main extends PApplet {
 	// generate points, draw points on mouse drag
@@ -29,7 +30,13 @@ public class Main extends PApplet {
 	public void setup() {
 		colorMode(HSB, 360f, 100f, 100f, 100f);
 		frameRate(144);
+		noStroke();
 
+		points = new ArrayList<>();
+
+		IntStream.range(0, 400).forEach(i -> points.add(
+				new Point(random(width), random(height))
+		));
 
 	}
 
@@ -37,6 +44,8 @@ public class Main extends PApplet {
 	public void draw() {
 		background(210, 80, 40);
 
-
+		for (Point point : points) {
+			circle(point.x, point.y, 10);
+		}
 	}
 }

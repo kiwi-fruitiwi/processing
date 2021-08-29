@@ -1,5 +1,12 @@
 package quadtree;
 
-public class Point {
+import processing.core.PApplet;
 
+public class Point {
+	float x, y;
+
+	public Point(float x, float y) {
+		this.x = x;
+		this.y = y;
+	}
 }
