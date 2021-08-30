@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 /**
- * Thanks to our hero Abe Pazos at https://vimeo.com/channels/p5idea, who teaches us how to use Processing inside IDEA
+ * Thanks to our hero Abe Pazos at https://vimeo.com/channels/p5idea, who
+ * teaches us how to use Processing inside IDEA
  */
 public class sbfac extends PApplet {
 	// done: vehicle, target
@@ -27,7 +28,7 @@ public class sbfac extends PApplet {
 	boolean seek; // is the behavior seek / pursue or flee / evade?
 
 	public static void main(String[] args) {
-		PApplet.main(new String[] {sbfac.class.getName()});
+		PApplet.main(new String[]{sbfac.class.getName()});
 	}
 
 	@Override
@@ -80,7 +81,9 @@ public class sbfac extends PApplet {
 			v.update(this);
 			v.edge_bounce(this);
 
-			mouse_acc = PVector.sub(mouse_pos, v.getPos()).normalize().mult(0.01f);
+			mouse_acc = PVector.sub(
+					mouse_pos,
+					v.getPos()).normalize().mult(0.01f);
 			v.apply_force(mouse_acc);
 		}
 	}
@@ -93,8 +96,8 @@ public class sbfac extends PApplet {
 						(int) random(10, height - 10 + 1))));
 	}
 
-	// The apparent best way to get a random number that doesn't have seed problems
-	// ThreadLocalRandom.current().nextInt(10,  width-10+1)
+	// The apparent best way to get a random number that doesn't have seed
+	// problems ThreadLocalRandom.current().nextInt(10,  width-10+1)
 
 	@Override
 	public void mousePressed() {
