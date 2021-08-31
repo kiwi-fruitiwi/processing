@@ -17,12 +17,13 @@ import java.util.stream.IntStream;
  */
 public class Main extends PApplet {
 	/*
-	 make particles, .move(), .render()
-	 generate particles, draw points on mouse drag
+	  make particles, .move(), .render()
+	  generate particles, draw points on mouse drag
+	  make Rectangle, Point
+	  make Quadtree
+	  .insert(), .subdivide()
 
-	 TODO make Rectangle, Point
-	 TODO make Quadtree
-	 TODO .insert(), .subdivide()
+	 TODO .edge_wrap() or .edge_bounce()
 	 TODO .query()
 	 TODO query box with mouse hover
 	 TODO add collision detection » point.intersects
@@ -30,6 +31,8 @@ public class Main extends PApplet {
 	*/
 
 	List<Particle> particles;
+	List<Point> points;
+	Quadtree qt;
 
 	public static void main(String[] args) {
 		PApplet.main(new String[] {Main.class.getName()});
@@ -48,7 +51,7 @@ public class Main extends PApplet {
 
 		particles = new ArrayList<>();
 
-		IntStream.range(0, 400).forEach(i -> particles.add(
+		IntStream.range(0, 2000).forEach(i -> particles.add(
 				new Particle(this, random(width), random(height))
 		));
 
@@ -66,7 +69,19 @@ public class Main extends PApplet {
 			particle.render(this);
 		}
 
+		// populate our quadtree and display it
+		points = new ArrayList<>();
+		qt = new Quadtree(this, new Rectangle(this, 0, 0, width, height), 4);
+
+		for (Particle particle : particles) {
+			Point p = new Point(this, particle.x, particle.y);
+			points.add(p);
+			qt.insert(this, p);
+		}
+
+		qt.show(this);
 		display_FPS();
+		println(qt.count(this));
 	}
 
 	@Override
