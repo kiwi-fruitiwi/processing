@@ -22,8 +22,9 @@ public class Main extends PApplet {
 	  make Rectangle, Point
 	  make Quadtree
 	  .insert(), .subdivide()
+      .edge_wrap()
 
-	 TODO .edge_wrap() or .edge_bounce()
+	 TODO Mover code » .edge_bounce()
 	 TODO .query()
 	 TODO query box with mouse hover
 	 TODO add collision detection » point.intersects
@@ -63,6 +64,7 @@ public class Main extends PApplet {
 
 		for (Particle particle : particles) {
 			particle.move(this);
+			particle.edge_wrap(this);
 		}
 
 		for (Particle particle : particles) {
