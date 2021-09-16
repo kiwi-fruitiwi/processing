@@ -1,7 +1,6 @@
 package quadtree;
 
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PFont;
 
 import java.util.ArrayList;
