@@ -1,6 +1,7 @@
 package gravitation;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PVector;
 
 public class Planet {
@@ -33,5 +34,27 @@ public class Planet {
     public void apply_force(PApplet app, PVector force) {
         // F=ma, so a=F/m
         acc.add(PVector.div(force, mass));
+    }
+
+    public void attract(PApplet app, Planet target) {
+        // this is the direction vector from this planet to its target
+        PVector force = PVector.sub(pos, target.pos);
+        float distance = force.mag();
+        distance = constrain(distance, 10, 33);
+
+        // universal gravitational constant
+        float G = 1;
+        float strength = (G*mass*target.mass)/((float) Math.pow(distance, 2));
+        force.setMag(strength);
+        target.apply_force(app, force);
+    }
+
+    // copies the functionality of processing's constrain function
+    private float constrain(float subject, float low, float high) {
+        if (subject < low)
+            return low;
+        else if (subject > high)
+            return high;
+        else return subject;
     }
 }
