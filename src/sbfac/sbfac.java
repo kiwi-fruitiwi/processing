@@ -100,7 +100,8 @@ public class sbfac extends PApplet {
 	// problems ThreadLocalRandom.current().nextInt(10,  width-10+1)
 
 	@Override
-	public void mousePressed() {
+	public void mouseDragged() {
+//		vehicles.add(new Vehicle(this, mouseX, mouseY));
 		seek = !seek;
 	}
 }

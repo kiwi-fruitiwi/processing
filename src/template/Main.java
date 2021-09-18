@@ -1,4 +1,4 @@
-package example;
+package template;
 
 import processing.core.PApplet;
 

@@ -8,14 +8,20 @@ public class Planet {
     PVector vel;
     PVector acc;
     float r; // this is our radius
-    int mass;
+    float mass;
 
-    public Planet(PApplet app, int x, int y, int mass) {
+    public Planet(PApplet app, int x, int y, float mass) {
         pos = new PVector(x , y);
-        vel = PVector.random2D().mult(0);
+
+        float mag = app.random(7, 10);
+        vel = PVector.random2D().setMag(mag);
         acc = new PVector(0, 0);
         this.mass = mass;
         r = (float) Math.sqrt(mass) * 2;
+    }
+
+    public void setVel(PApplet app, PVector vel) {
+        this.vel = vel;
     }
 
     public void show(PApplet app) {
@@ -38,8 +44,8 @@ public class Planet {
     public void attract(PApplet app, Planet target) {
         // this is the direction vector from this planet to its target
         PVector force = PVector.sub(pos, target.pos);
-        float distance = force.mag();
-        distance = constrain(distance, 10, 33);
+        float distance = constrain(force.mag(), 10, 33);
+//        distance = constrain(distance, 10, 33);
 
         // universal gravitational constant
         float G = 1;
@@ -48,7 +54,7 @@ public class Planet {
         target.apply_force(app, force);
     }
 
-    // copies the functionality of processing's constrain function
+    // copies the functionality of processing's constrain() function
     private float constrain(float subject, float low, float high) {
         if (subject < low)
             return low;
