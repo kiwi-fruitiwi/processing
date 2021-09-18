@@ -11,8 +11,14 @@ version comments
     single attractor in the center with many planets orbiting
         background trail
     mutual attraction
+    edge bounce or check?
     many attractors. add one more with each click
     move to 3D
+    trails in 3D:
+        entire sketch is a particle system with lifespans
+            they must be drawn in order!
+        or we can attempt trail object with varying transparency
+    optional octree
 
  */
 public class Main extends PApplet {
@@ -26,31 +32,24 @@ public class Main extends PApplet {
 
     @Override
     public void settings() {
-        size(640, 360);
+        size(1280, 720);
     }
 
     @Override
     public void setup() {
-        frameRate(144);
+        frameRate(60);
         rectMode(RADIUS);
         colorMode(HSB, 360f, 100f, 100f, 100f);
         stroke(0, 0, 100, 50);
 
-        attractor = new Planet(this, width/2, height/2, 500);
-        attractor.setVel(this, new PVector(0, 0));
-
-//        gravity = new PVector(0f, 0.01f);
+        // add many planets
         planets = new ArrayList<>();
-        for (int i=0; i < 100; i++) {
-            int x = width/2;
-            int y = height/2;
-
-            while (dist(x, y, width/2, height/2) < 100) {
-                x = (int) random(width);
-                y = (int) random(height);
-            }
-
-            planets.add(new Planet(this, x, y, (int) random(20)+1));
+        for (int i=0; i < 30; i++) {
+            planets.add(
+                    new Planet(this,
+                            (int) random(width/4, width*3/4),
+                            (int) random(height/4, height*3/4),
+                            (int) random(20, 100)));
         }
     }
 
@@ -58,19 +57,37 @@ public class Main extends PApplet {
     public void draw() {
         background(210, 100, 30, 100);
 
-        attractor.show(this);
-        attractor.update(this);
+        // have each planet apply its force to each other planet
+        for (Planet p : planets) {
+            // check all other planets
+            for (Planet n : planets) {
+                if (n != p) {
+                    p.attract(this, n);
+                }
+            }
+//            attractor.attract(this, p);
+
+        }
+
 
         for (Planet p : planets) {
             p.update(this);
+        }
+
+        // show and update have to be separate because we don't want one
+        // planet to rely on another planet's changes mid-loop
+        for (Planet p : planets) {
             p.show(this);
-            attractor.attract(this, p);
-//            p.apply_force(this, PVector.mult(gravity, p.mass));
         }
     }
 
     @Override
     public void mousePressed() {
         System.out.println(frameRate);
+        planets.add(
+                new Planet(this,
+                        (int) random(width),
+                        (int) random(height),
+                        (int) random(20, 100)));
     }
 }

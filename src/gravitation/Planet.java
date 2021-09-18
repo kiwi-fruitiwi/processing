@@ -13,7 +13,7 @@ public class Planet {
     public Planet(PApplet app, int x, int y, float mass) {
         pos = new PVector(x , y);
 
-        float mag = app.random(7, 10);
+        float mag = app.random(5.5f, 10.5f);
         vel = PVector.random2D().setMag(mag);
         acc = new PVector(0, 0);
         this.mass = mass;
@@ -44,8 +44,9 @@ public class Planet {
     public void attract(PApplet app, Planet target) {
         // this is the direction vector from this planet to its target
         PVector force = PVector.sub(pos, target.pos);
-        float distance = constrain(force.mag(), 10, 33);
-//        distance = constrain(distance, 10, 33);
+        float distance = force.mag();
+//        constrain(force.mag(), 10, 33);
+        distance = constrain(distance, 30, 50);
 
         // universal gravitational constant
         float G = 1;
