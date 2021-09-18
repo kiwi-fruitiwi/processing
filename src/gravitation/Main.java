@@ -37,7 +37,7 @@ public class Main extends PApplet {
 
     @Override
     public void setup() {
-        frameRate(60);
+        frameRate(144);
         rectMode(RADIUS);
         colorMode(HSB, 360f, 100f, 100f, 100f);
         stroke(0, 0, 100, 50);
@@ -65,10 +65,7 @@ public class Main extends PApplet {
                     p.attract(this, n);
                 }
             }
-//            attractor.attract(this, p);
-
         }
-
 
         for (Planet p : planets) {
             p.update(this);
@@ -85,9 +82,9 @@ public class Main extends PApplet {
     public void mousePressed() {
         System.out.println(frameRate);
         planets.add(
-                new Planet(this,
-                        (int) random(width),
-                        (int) random(height),
-                        (int) random(20, 100)));
+                new Planet(this, mouseX, mouseY, 100));
+//                        (int) random(width),
+//                        (int) random(height),
+//                        (int) random(20, 100)));
     }
 }

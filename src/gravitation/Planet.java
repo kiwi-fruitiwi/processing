@@ -46,7 +46,7 @@ public class Planet {
         PVector force = PVector.sub(pos, target.pos);
         float distance = force.mag();
 //        constrain(force.mag(), 10, 33);
-        distance = constrain(distance, 30, 50);
+        distance = constrain(distance, 50, 100);
 
         // universal gravitational constant
         float G = 1;
