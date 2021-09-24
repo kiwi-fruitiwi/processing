@@ -1,5 +1,6 @@
 package gravitation;
 
+import peasy.PeasyCam;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -25,6 +26,7 @@ public class Main extends PApplet {
     List<Planet> planets;
     Planet attractor;
     PVector gravity;
+    PeasyCam cam;
 
     public static void main(String[] args) {
         PApplet.main(new String[]{gravitation.Main.class.getName()});
@@ -32,23 +34,26 @@ public class Main extends PApplet {
 
     @Override
     public void settings() {
-        size(1280, 720);
+        size(1280, 720, P3D);
     }
 
     @Override
     public void setup() {
-        frameRate(144);
+        // if you don't specify the framerate, it defaults to 60
+//        frameRate(144);
         rectMode(RADIUS);
         colorMode(HSB, 360f, 100f, 100f, 100f);
         stroke(0, 0, 100, 50);
+        cam = new PeasyCam(this, width/2, height/2, 0, 500);
 
         // add many planets
         planets = new ArrayList<>();
-        for (int i=0; i < 30; i++) {
+        for (int i=0; i < 4; i++) {
             planets.add(
                     new Planet(this,
                             (int) random(width/4, width*3/4),
                             (int) random(height/4, height*3/4),
+                            (int) random(200, 600),
                             (int) random(20, 100)));
         }
     }
@@ -81,10 +86,7 @@ public class Main extends PApplet {
     @Override
     public void mousePressed() {
         System.out.println(frameRate);
-        planets.add(
-                new Planet(this, mouseX, mouseY, 100));
-//                        (int) random(width),
-//                        (int) random(height),
-//                        (int) random(20, 100)));
+        lights();
+//        planets.add(new Planet(this, mouseX, mouseY, 0, 100));
     }
 }

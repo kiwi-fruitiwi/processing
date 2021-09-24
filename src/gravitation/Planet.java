@@ -10,14 +10,14 @@ public class Planet {
     float r; // this is our radius
     float mass;
 
-    public Planet(PApplet app, int x, int y, float mass) {
-        pos = new PVector(x , y);
+    public Planet(PApplet app, int x, int y, int z, float mass) {
+        pos = new PVector(x, y, z);
 
-        float mag = app.random(5.5f, 10.5f);
-        vel = PVector.random2D().setMag(mag);
-        acc = new PVector(0, 0);
+        float mag = app.random(2.5f, 10.5f);
+        vel = PVector.random3D().setMag(mag);
+        acc = new PVector(0, 0, 0);
         this.mass = mass;
-        r = (float) Math.sqrt(mass) * 2;
+        r = (float) Math.sqrt(mass)*5;
     }
 
     public void setVel(PApplet app, PVector vel) {
@@ -26,7 +26,12 @@ public class Planet {
 
     public void show(PApplet app) {
         app.fill(0, 0, 100, 20); // white
-        app.circle(pos.x, pos.y, r*2);
+        app.noStroke();
+        app.pushMatrix();
+        app.translate(pos.x, pos.y, pos.z);
+        app.sphere(r);
+//        app.circle(pos.x, pos.y, r*2);
+        app.popMatrix();
     }
 
     public void update(PApplet app) {
@@ -46,10 +51,10 @@ public class Planet {
         PVector force = PVector.sub(pos, target.pos);
         float distance = force.mag();
 //        constrain(force.mag(), 10, 33);
-        distance = constrain(distance, 50, 100);
+        distance = constrain(distance, 20, 50);
 
         // universal gravitational constant
-        float G = 1;
+        float G = 0.8f;
         float strength = (G*mass*target.mass)/((float) Math.pow(distance, 2));
         force.setMag(strength);
         target.apply_force(app, force);
