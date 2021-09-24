@@ -15,6 +15,8 @@ version comments
     edge bounce or check?
     many attractors. add one more with each click
     move to 3D
+        apply small invisible attractor force to each one?
+            this way the spheres stay within the camera
     trails in 3D:
         entire sketch is a particle system with lifespans
             they must be drawn in order!
@@ -48,7 +50,7 @@ public class Main extends PApplet {
 
         // add many planets
         planets = new ArrayList<>();
-        for (int i=0; i < 4; i++) {
+        for (int i=0; i < 12; i++) {
             planets.add(
                     new Planet(this,
                             (int) random(width/4, width*3/4),
@@ -75,6 +77,7 @@ public class Main extends PApplet {
         for (Planet p : planets) {
             p.update(this);
         }
+        lights();
 
         // show and update have to be separate because we don't want one
         // planet to rely on another planet's changes mid-loop
@@ -86,7 +89,10 @@ public class Main extends PApplet {
     @Override
     public void mousePressed() {
         System.out.println(frameRate);
-        lights();
 //        planets.add(new Planet(this, mouseX, mouseY, 0, 100));
+    }
+
+    public void mouseDragged() {
+
     }
 }
