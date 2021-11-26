@@ -32,11 +32,11 @@ public class Main extends PApplet {
         imageMode(CENTER);
         rectMode(CENTER);
 
-        font = createFont("Meiryo", 12);
+        font = createFont("data/giga.ttf", 14);
         textFont(font);
 
         cooldown = 0;
-//        benison_alpha_full = true;
+        // benison_alpha_full = true;
         action = false;
 
         border = loadImage("ffxivwhmsim/icons/border.png");
@@ -57,6 +57,8 @@ public class Main extends PApplet {
         fill(0, 0, 100, 100);
         text("Divine Benison, Holy, and Regen\n[Cody Berry, Lv.72 White Mage]",
                 width/4f, height/4f);
+
+//        System.out.println(textWidth("Hello World"));
 
         if (action) {
             float c = map(cooldown, 0, 100, -PI/2, 3*PI/2);
