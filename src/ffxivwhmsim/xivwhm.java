@@ -9,14 +9,14 @@ import processing.core.PShape;
  * I don't know why the python version keeps crashing, so I'm porting
  * over to java to see if the issue persists ; ;
  */
-public class Main extends PApplet {
+public class xivwhm extends PApplet {
     PFont font;
     PImage benison, holy, regen, border;
     float cooldown;
     boolean benison_alpha_full, action;
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{Main.class.getName()});
+        PApplet.main(new String[]{xivwhm.class.getName()});
     }
 
     @Override

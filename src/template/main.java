@@ -5,9 +5,9 @@ import processing.core.PApplet;
 /**
  * Thanks to our hero Abe Pazos at https://vimeo.com/channels/p5idea, who teaches us how to use Processing inside IDEA
  */
-public class Main extends PApplet {
+public class main extends PApplet {
 	public static void main(String[] args) {
-		PApplet.main(new String[]{Main.class.getName()});
+		PApplet.main(new String[]{main.class.getName()});
 	}
 
 	@Override
