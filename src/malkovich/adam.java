@@ -3,6 +3,7 @@ package malkovich;
 import peasy.PeasyCam;
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PImage;
 
 /**
  *	coding plan:
@@ -13,6 +14,7 @@ import processing.core.PFont;
 public class adam extends PApplet {
 	PFont font;
 	PeasyCam cam;
+	PImage textFrame;
 
 	// define the hue and saturation for all 3 axes
 	final int X_HUE = 0, X_SAT = 80;
@@ -39,12 +41,18 @@ public class adam extends PApplet {
 		cam = new PeasyCam(this, 0, 0, 0, 500);
 		font = createFont("data/giga.ttf", 14);
 		textFont(font, 14);
+
+		textFrame = loadImage("malkovich/textFrame.png");
 	}
 
 	@Override
 	public void draw() {
 		background(234, 34, 24);
 		drawBlenderAxes();
+
+		cam.beginHUD();
+		image(textFrame, 0, 0, width, height);
+		cam.endHUD();
 	}
 
 	// draw axes in blender colors, with negative parts less bright
