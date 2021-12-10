@@ -9,7 +9,10 @@ import processing.core.PImage;
  *	coding plan:
  *		☒ add peasycam
  *		☒ drawBlenderAxes()
- *		☐ add passage
+ *		☒ add dialog box texture
+ *		☐ dialogbox.java
+ *
+ *		passage
  */
 public class adam extends PApplet {
 	PFont font;
@@ -39,7 +42,7 @@ public class adam extends PApplet {
 		frameRate(144);
 
 		cam = new PeasyCam(this, 0, 0, 0, 500);
-		font = createFont("data/giga.ttf", 14);
+		font = createFont("malkovich/gigamarujr.ttf", 14);
 		textFont(font, 14);
 
 		textFrame = loadImage("malkovich/textFrame.png");
