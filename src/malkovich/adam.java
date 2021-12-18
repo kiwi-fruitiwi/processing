@@ -7,10 +7,11 @@ import processing.core.PImage;
 
 /**
  *	coding plan:
- *		☒ add peasycam
- *		☒ drawBlenderAxes()
- *		☒ add dialog box texture
- *		☐ dialogbox.java
+ *	☒ add peasycam
+ *	☒ drawBlenderAxes()
+ *	☒ add dialog box texture
+ *	☐ dialogbox.java
+ *		☐ how does JSON work in java
  *
  *		passage
  */
@@ -46,6 +47,13 @@ public class adam extends PApplet {
 		textFont(font, 14);
 
 		textFrame = loadImage("malkovich/textFrame.png");
+
+		String hdl;
+		for (int i=0; i<16; i++) {
+			System.out.println(
+				String.format("Bit(in=in[%d], load=load, out=out[%d])", i, i));
+
+		}
 	}
 
 	@Override
