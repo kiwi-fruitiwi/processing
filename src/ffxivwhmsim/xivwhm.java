@@ -32,7 +32,7 @@ public class xivwhm extends PApplet {
         imageMode(CENTER);
         rectMode(CENTER);
 
-        font = createFont("data/giga.ttf", 14);
+        font = createFont("malkovich/gigamarujr.ttf", 14);
         textFont(font);
 
         cooldown = 0;

@@ -1,5 +1,3 @@
-package template;
-
 import processing.core.PApplet;
 
 /**
