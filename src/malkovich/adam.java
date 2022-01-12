@@ -4,6 +4,7 @@ import peasy.PeasyCam;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
+import processing.data.JSONObject;
 
 /**
  *	coding plan:
@@ -19,6 +20,7 @@ public class adam extends PApplet {
 	PFont font;
 	PeasyCam cam;
 	PImage textFrame;
+	JSONObject json;
 
 	// define the hue and saturation for all 3 axes
 	final int X_HUE = 0, X_SAT = 80;
